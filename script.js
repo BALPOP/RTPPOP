@@ -13,6 +13,11 @@ const CONFIG = {
         min: 30,
         max: 99
     },
+    rtpwin: {
+        min: 10,
+        max: 100
+        },
+    
     multipliers: [
         { value: '3X', type: 'low' },
         { value: '7X', type: 'low' },

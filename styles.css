@@ -670,9 +670,9 @@ body {
     background: linear-gradient(135deg, var(--card-bg), rgba(26, 26, 26, 0.95));
     border-radius: var(--radius-lg);
     padding: 2rem;
-    max-width: 500px;
+    max-width: 600px;
     width: 90%;
-    max-height: 80vh;
+    max-height: 90vh;
     overflow-y: auto;
     position: relative;
     border: 2px solid rgba(255, 64, 129, 0.3);
@@ -843,6 +843,13 @@ body {
     transform: translateY(-1px);
 }
 
+/* Empty Slot for Grid Symmetry */
+.popup-btn-empty {
+    min-height: 120px;
+    height: 120px;
+    visibility: hidden;
+}
+
 /* Legacy Button Icons (for backward compatibility) */
 .popup-btn-icon {
     width: 40px;
@@ -914,6 +921,11 @@ body {
         height: 100px;
     }
     
+    .popup-btn-empty {
+        min-height: 100px;
+        height: 100px;
+    }
+    
     .popup-btn-icon {
         width: 35px;
         height: 35px;
@@ -948,6 +960,11 @@ body {
     }
     
     .popup-btn-placeholder {
+        min-height: 80px;
+        height: 80px;
+    }
+    
+    .popup-btn-empty {
         min-height: 80px;
         height: 80px;
     }
