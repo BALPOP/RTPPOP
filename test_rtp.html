@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RTP System Test</title>
+    <style>
+        body {
+            font-family: monospace;
+            background: #0a0a0a;
+            color: #00ff00;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        h1 {
+            color: #ff4081;
+        }
+        .info {
+            background: #1a1a1a;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .game {
+            padding: 10px;
+            border-bottom: 1px solid #333;
+        }
+        .rtp-high { color: #00ff00; }
+        .rtp-medium { color: #ffd700; }
+        .rtp-low { color: #ff0000; }
+        .timer {
+            font-size: 24px;
+            color: #7c4dff;
+            text-align: center;
+            margin: 20px 0;
+        }
+        button {
+            background: linear-gradient(135deg, #ff1744, #ff4081);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 10px 5px;
+            font-weight: bold;
+        }
+        button:hover {
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎰 RTP System Test</h1>
+        
+        <div class="info">
+            <h2>📊 Current Time Window</h2>
+            <p><strong>Current Time:</strong> <span id="currentTime"></span></p>
+            <p><strong>Time Seed:</strong> <span id="timeSeed"></span></p>
+            <p><strong>Next Update In:</strong> <span id="countdown" class="timer"></span></p>
+        </div>
+
+        <div class="info">
+            <h2>🎮 Sample Games (First 10)</h2>
+            <div id="gamesContainer"></div>
+        </div>
+
+        <div class="info">
+            <h2>🧪 Tests</h2>
+            <button onclick="testConsistency()">Test Consistency</button>
+            <button onclick="testDistribution()">Test Distribution</button>
+            <button onclick="refreshGames()">Refresh Display</button>
+            <button onclick="simulateNextWindow()">Simulate Next 10-Min Window</button>
+            <div id="testResults" style="margin-top: 15px;"></div>
+        </div>
+    </div>
+
+    <script>
+        // ============================================
+        // RTP SYSTEM FUNCTIONS (copied from script.js)
+        // ============================================
+
+        function getTimeSeed() {
+            const now = new Date();
+            const totalMinutes = now.getFullYear() * 525600 +
+                                now.getMonth() * 43800 +
+                                now.getDate() * 1440 +
+                                now.getHours() * 60 +
+                                Math.floor(now.getMinutes() / 10) * 10;
+            return totalMinutes;
+        }
+
+        function seededRandom(seed) {
+            // Ensure seed is a positive 32-bit integer
+            seed = Math.abs(seed | 0);
+            
+            // Mulberry32 algorithm - produces high-quality random numbers
+            let t = seed += 0x6D2B79F5;
+            t = Math.imul(t ^ t >>> 15, t | 1);
+            t ^= t + Math.imul(t ^ t >>> 7, t | 61);
+            return ((t ^ t >>> 14) >>> 0) / 4294967296;
+        }
+
+        function getSeededRandomInt(seed, min, max) {
+            // Mix the seed better to avoid patterns
+            seed = (seed * 9301 + 49297) % 233280;
+            const random = seededRandom(seed);
+            return Math.floor(random * (max - min + 1)) + min;
+        }
+
+        function generateRandomRTP(gameId, customTimeSeed = null) {
+            const timeSeed = customTimeSeed !== null ? customTimeSeed : getTimeSeed();
+            const combinedSeed = timeSeed * 1000 + gameId;
+            return getSeededRandomInt(combinedSeed, 30, 99);
+        }
+
+        function generateRandomMultiplier(gameId, customTimeSeed = null) {
+            const timeSeed = customTimeSeed !== null ? customTimeSeed : getTimeSeed();
+            const multipliers = [
+                { value: '3X', type: 'low' },
+                { value: '7X', type: 'low' },
+                { value: '9X', type: 'medium' },
+                { value: '10X', type: 'medium' },
+                { value: '11X', type: 'medium' },
+                { value: '13X', type: 'high' },
+                { value: '15X', type: 'high' },
+                { value: '17X', type: 'high' },
+                { value: '20X', type: 'high' }
+            ];
+            
+            const multiplierSeed = (timeSeed * 1000 + gameId) * 7;
+            const multiplierIndex = getSeededRandomInt(multiplierSeed, 0, multipliers.length - 1);
+            const multiplier = multipliers[multiplierIndex];
+            
+            const icons = [];
+            for (let i = 0; i < 3; i++) {
+                const iconSeed = (timeSeed * 1000 + gameId) * (13 + i * 5);
+                const isCheck = getSeededRandomInt(iconSeed, 0, 1) === 1;
+                icons.push(isCheck ? '✓' : '✕');
+            }
+            
+            return {
+                value: multiplier.value,
+                type: multiplier.type,
+                icons: icons
+            };
+        }
+
+        function getRTPColorClass(rtp) {
+            if (rtp >= 70) return 'rtp-high';
+            if (rtp >= 50) return 'rtp-medium';
+            return 'rtp-low';
+        }
+
+        function getTimeUntilNextUpdate() {
+            const now = new Date();
+            const currentMinutes = now.getMinutes();
+            const currentSeconds = now.getSeconds();
+            const currentMilliseconds = now.getMilliseconds();
+            const minutesUntilNext = 10 - (currentMinutes % 10);
+            const msUntilNext = (minutesUntilNext * 60 * 1000) - (currentSeconds * 1000) - currentMilliseconds;
+            return msUntilNext;
+        }
+
+        // ============================================
+        // UI UPDATE FUNCTIONS
+        // ============================================
+
+        function updateDisplay() {
+            const now = new Date();
+            document.getElementById('currentTime').textContent = now.toLocaleTimeString('pt-BR');
+            document.getElementById('timeSeed').textContent = getTimeSeed();
+            updateGames();
+        }
+
+        function updateGames() {
+            const container = document.getElementById('gamesContainer');
+            container.innerHTML = '';
+            
+            for (let i = 1; i <= 10; i++) {
+                const rtp = generateRandomRTP(i);
+                const multiplier = generateRandomMultiplier(i);
+                const colorClass = getRTPColorClass(rtp);
+                const gameDiv = document.createElement('div');
+                gameDiv.className = 'game';
+                gameDiv.innerHTML = `Game ${i}: <span class="${colorClass}"><strong>${rtp}%</strong></span> | ${multiplier.value} ${multiplier.icons.join(' ')}`;
+                container.appendChild(gameDiv);
+            }
+        }
+
+        function updateCountdown() {
+            const ms = getTimeUntilNextUpdate();
+            const minutes = Math.floor(ms / 60000);
+            const seconds = Math.floor((ms % 60000) / 1000);
+            document.getElementById('countdown').textContent = 
+                `${minutes}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        function refreshGames() {
+            updateDisplay();
+            showTestResult('✅ Display refreshed! RTP values should be identical.', 'success');
+        }
+
+        // ============================================
+        // TEST FUNCTIONS
+        // ============================================
+
+        function testConsistency() {
+            const results = [];
+            const testGames = [1, 5, 10];
+            
+            // Generate RTP and Multipliers twice for each game
+            testGames.forEach(gameId => {
+                const rtp1 = generateRandomRTP(gameId);
+                const rtp2 = generateRandomRTP(gameId);
+                const rtpMatch = rtp1 === rtp2;
+                
+                const mult1 = generateRandomMultiplier(gameId);
+                const mult2 = generateRandomMultiplier(gameId);
+                const multMatch = mult1.value === mult2.value && 
+                                 mult1.icons.join('') === mult2.icons.join('');
+                
+                results.push({
+                    gameId,
+                    rtp1,
+                    rtp2,
+                    rtpMatch,
+                    mult1: mult1.value + ' ' + mult1.icons.join(' '),
+                    mult2: mult2.value + ' ' + mult2.icons.join(' '),
+                    multMatch
+                });
+            });
+            
+            const allMatch = results.every(r => r.rtpMatch && r.multMatch);
+            
+            let resultHTML = '<h3>Consistency Test Results:</h3>';
+            resultHTML += '<h4>RTP Values:</h4>';
+            results.forEach(r => {
+                const icon = r.rtpMatch ? '✅' : '❌';
+                resultHTML += `<p>${icon} Game ${r.gameId}: ${r.rtp1}% vs ${r.rtp2}% - ${r.rtpMatch ? 'MATCH' : 'MISMATCH'}</p>`;
+            });
+            
+            resultHTML += '<h4>Multipliers & Icons:</h4>';
+            results.forEach(r => {
+                const icon = r.multMatch ? '✅' : '❌';
+                resultHTML += `<p>${icon} Game ${r.gameId}: "${r.mult1}" vs "${r.mult2}" - ${r.multMatch ? 'MATCH' : 'MISMATCH'}</p>`;
+            });
+            
+            if (allMatch) {
+                resultHTML += '<p style="color: #00ff00;"><strong>✅ ALL TESTS PASSED! RTP and Multipliers are consistent.</strong></p>';
+            } else {
+                resultHTML += '<p style="color: #ff0000;"><strong>❌ TEST FAILED! Some values are inconsistent.</strong></p>';
+            }
+            
+            showTestResult(resultHTML, allMatch ? 'success' : 'error');
+        }
+
+        function testDistribution() {
+            let resultHTML = '<h3>Distribution Test (100 games):</h3>';
+            
+            // Generate RTP for 100 games
+            const rtps = [];
+            for (let i = 1; i <= 100; i++) {
+                rtps.push(generateRandomRTP(i));
+            }
+            
+            // Calculate statistics
+            const min = Math.min(...rtps);
+            const max = Math.max(...rtps);
+            const avg = (rtps.reduce((a, b) => a + b, 0) / rtps.length).toFixed(1);
+            
+            // Count by range
+            const ranges = {
+                'Low (30-49)': rtps.filter(r => r < 50).length,
+                'Medium (50-69)': rtps.filter(r => r >= 50 && r < 70).length,
+                'High (70-99)': rtps.filter(r => r >= 70).length
+            };
+            
+            resultHTML += `<p><strong>Min:</strong> ${min}% | <strong>Max:</strong> ${max}% | <strong>Average:</strong> ${avg}%</p>`;
+            resultHTML += '<p><strong>Distribution:</strong></p>';
+            
+            for (const [range, count] of Object.entries(ranges)) {
+                const percentage = ((count / 100) * 100).toFixed(1);
+                const bar = '█'.repeat(Math.floor(count / 5));
+                resultHTML += `<p>${range}: ${count} games (${percentage}%) ${bar}</p>`;
+            }
+            
+            // Check if distribution is reasonable (not all clustered)
+            const isGoodDistribution = min < 40 && max > 85 && Math.abs(avg - 64.5) < 15;
+            
+            if (isGoodDistribution) {
+                resultHTML += '<p style="color: #00ff00;"><strong>✅ Good distribution across the full range!</strong></p>';
+            } else {
+                resultHTML += '<p style="color: #ffd700;"><strong>⚠️ Distribution may be skewed, but this can happen randomly.</strong></p>';
+            }
+            
+            // Show sample values
+            resultHTML += '<p><strong>Sample values:</strong> ' + rtps.slice(0, 20).join('%, ') + '%...</p>';
+            
+            showTestResult(resultHTML, 'info');
+        }
+
+        function simulateNextWindow() {
+            const currentTimeSeed = getTimeSeed();
+            const nextTimeSeed = currentTimeSeed + 10; // Add 10 minutes
+            
+            let resultHTML = '<h3>Simulated Next Window (10 minutes from now):</h3>';
+            resultHTML += '<p><strong>Current vs Next RTP values:</strong></p>';
+            
+            for (let i = 1; i <= 5; i++) {
+                const currentRTP = generateRandomRTP(i, currentTimeSeed);
+                const nextRTP = generateRandomRTP(i, nextTimeSeed);
+                const different = currentRTP !== nextRTP;
+                const icon = different ? '✅' : '⚠️';
+                resultHTML += `<p>${icon} Game ${i}: ${currentRTP}% → ${nextRTP}% ${different ? '(Changed)' : '(Same - unusual but possible)'}</p>`;
+            }
+            
+            showTestResult(resultHTML, 'info');
+        }
+
+        function showTestResult(html, type) {
+            const container = document.getElementById('testResults');
+            const colors = {
+                success: '#00ff00',
+                error: '#ff0000',
+                info: '#7c4dff'
+            };
+            container.style.color = colors[type] || '#ffffff';
+            container.innerHTML = html;
+        }
+
+        // ============================================
+        // AUTO-REFRESH
+        // ============================================
+
+        function setupAutoRefresh() {
+            setInterval(() => {
+                const ms = getTimeUntilNextUpdate();
+                if (ms < 1000) { // Less than 1 second until update
+                    updateDisplay();
+                    showTestResult('🔄 <strong>RTP VALUES UPDATED!</strong> New 10-minute window started.', 'success');
+                }
+            }, 500);
+        }
+
+        // ============================================
+        // INITIALIZATION
+        // ============================================
+
+        function init() {
+            console.log('🎰 RTP Test Page Loaded');
+            updateDisplay();
+            setInterval(updateCountdown, 100);
+            setupAutoRefresh();
+            
+            // Show initial test
+            setTimeout(() => {
+                showTestResult('👆 Click buttons above to run tests!', 'info');
+            }, 500);
+        }
+
+        // Start when page loads
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', init);
+        } else {
+            init();
+        }
+    </script>
+</body>
+</html>
+

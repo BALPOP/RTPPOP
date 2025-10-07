@@ -1,0 +1,997 @@
+/*
+    RTP Slot Gacor - Stylesheet
+    Purpose: Provides dark theme styling, responsive layout, and animations
+    Features: Mobile-first design, gradient effects, smooth transitions
+*/
+
+/* ============================================
+   GLOBAL STYLES & RESET
+   ============================================ */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    /* Color Palette */
+    --primary-red: #ff1744;
+    --primary-pink: #ff4081;
+    --primary-purple: #7c4dff;
+    --dark-bg: #0a0a0a;
+    --card-bg: #1a1a1a;
+    --text-white: #ffffff;
+    --text-gray: #b0b0b0;
+    --yellow-bar: #ffd700;
+    --green-bar: #00ff00;
+    --red-bar: #ff0000;
+    
+    /* Spacing */
+    --spacing-xs: 0.5rem;
+    --spacing-sm: 1rem;
+    --spacing-md: 1.5rem;
+    --spacing-lg: 2rem;
+    --spacing-xl: 3rem;
+    
+    /* Border Radius */
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+}
+
+body {
+    font-family: 'Arial', 'Helvetica', sans-serif;
+    background: var(--dark-bg);
+    color: var(--text-white);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 var(--spacing-md);
+}
+
+/* ============================================
+   HEADER SECTION
+   ============================================ */
+.header {
+    padding: var(--spacing-md) 0;
+    background: linear-gradient(135deg, rgba(26, 26, 26, 0.95), rgba(10, 10, 10, 0.95));
+    border-bottom: 2px solid rgba(255, 23, 68, 0.3);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(10px);
+}
+
+.header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Logo Styling */
+.logo h1 {
+    font-size: 2rem;
+    font-weight: 900;
+    line-height: 1.2;
+    background: linear-gradient(135deg, var(--primary-pink), var(--primary-purple));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: 2px;
+}
+
+/* Register Button */
+.register-btn {
+    background: linear-gradient(135deg, var(--primary-red), var(--primary-pink));
+    color: var(--text-white);
+    border: none;
+    padding: 0.8rem 2.5rem;
+    font-size: 1rem;
+    font-weight: 700;
+    border-radius: var(--radius-lg);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-shadow: 0 4px 15px rgba(255, 23, 68, 0.4);
+}
+
+.register-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 23, 68, 0.6);
+}
+
+/* ============================================
+   HERO SECTION
+   ============================================ */
+.hero {
+    text-align: center;
+    padding: var(--spacing-xl) 0;
+}
+
+.main-title {
+    font-size: 3rem;
+    font-weight: 900;
+    margin-bottom: var(--spacing-md);
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    background: linear-gradient(135deg, var(--primary-pink), var(--primary-purple));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.description {
+    color: var(--text-gray);
+    max-width: 1000px;
+    margin: 0 auto;
+    font-size: 1rem;
+    line-height: 1.8;
+}
+
+/* ============================================
+   PROVIDER TABS
+   ============================================ */
+.provider-tabs {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
+    margin: var(--spacing-lg) 0;
+}
+
+.tab-btn {
+    background: var(--card-bg);
+    color: var(--text-white);
+    border: 2px solid transparent;
+    padding: 0.8rem 2rem;
+    font-size: 0.95rem;
+    font-weight: 700;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.tab-btn:hover {
+    border-color: var(--primary-pink);
+    background: rgba(255, 64, 129, 0.1);
+}
+
+.tab-btn.active {
+    background: linear-gradient(135deg, var(--primary-red), var(--primary-pink));
+    border-color: var(--primary-red);
+    box-shadow: 0 4px 15px rgba(255, 23, 68, 0.4);
+}
+
+/* ============================================
+   PROVIDER TITLE & HEADER
+   ============================================ */
+.provider-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: var(--spacing-lg) 0;
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
+}
+
+.provider-title {
+    font-size: 2.5rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin: 0;
+}
+
+/* Show All Button */
+.show-all-btn {
+    background: linear-gradient(135deg, rgba(124, 77, 255, 0.2), rgba(255, 64, 129, 0.2));
+    color: var(--text-white);
+    border: 2px solid var(--primary-purple);
+    padding: 0.8rem 1.5rem;
+    font-size: 0.95rem;
+    font-weight: 700;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.show-all-btn:hover {
+    background: linear-gradient(135deg, var(--primary-purple), var(--primary-pink));
+    border-color: var(--primary-pink);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(124, 77, 255, 0.4);
+}
+
+.show-all-btn.active {
+    background: linear-gradient(135deg, var(--primary-purple), var(--primary-pink));
+    border-color: var(--primary-pink);
+    box-shadow: 0 4px 15px rgba(124, 77, 255, 0.4);
+}
+
+.show-all-btn .game-count {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 0.2rem 0.6rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.85rem;
+    font-weight: 900;
+}
+
+/* ============================================
+   GAMES GRID
+   ============================================ */
+.games-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-xl);
+}
+
+/* ============================================
+   GAME CARD
+   ============================================ */
+.game-card {
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border: 2px solid transparent;
+    -webkit-tap-highlight-color: transparent; /* Remove blue tap highlight on mobile */
+    position: relative;
+}
+
+.game-card:hover {
+    transform: translateY(-8px);
+    border-color: var(--primary-pink);
+    box-shadow: 0 8px 25px rgba(255, 64, 129, 0.3);
+}
+
+/* Mobile: Less aggressive hover effect (touch-friendly) */
+@media (max-width: 768px) {
+    .game-card:active {
+        transform: scale(0.98);
+        border-color: var(--primary-pink);
+    }
+    
+    .game-card:hover {
+        transform: none;
+    }
+}
+
+/* Game Image Container */
+.game-image {
+    width: 100%;
+    height: 300px;
+    position: relative;
+    background: var(--dark-bg);
+}
+
+.game-image img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    transition: transform 0.3s ease;
+}
+
+.game-card:hover .game-image img {
+    transform: scale(1.05);
+}
+
+/* Simple centered info below image */
+.game-info {
+    padding: var(--spacing-xs) var(--spacing-sm);
+    text-align: center;
+    background: transparent;
+}
+
+.multiplier {
+    margin-bottom: var(--spacing-xs);
+}
+
+.multiplier-text {
+    font-size: 1.1rem;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    color: var(--text-white);
+}
+
+.multiplier-icons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 1.25rem;
+    line-height: 1;
+}
+
+.icon-check { color: var(--green-bar); }
+.icon-close { color: var(--red-bar); }
+
+/* RTP container below image */
+.rtp-container {
+    margin-top: var(--spacing-xs);
+}
+
+.rtp-bar-wrapper {
+    width: 100%;
+    height: 30px;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    position: relative;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+/* RTP Overlay */
+.rtp-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 8px;
+    z-index: 10;
+}
+
+/* Animated Progress Bar */
+.rtp-bar {
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+    font-size: 1.1rem;
+    color: #000;
+    transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--radius-sm);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+/* Animated Stripes Effect */
+.rtp-bar::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 200%;
+    height: 100%;
+    background: repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 10px,
+        rgba(255, 255, 255, 0.1) 10px,
+        rgba(255, 255, 255, 0.1) 20px
+    );
+    animation: moveStripes 2s linear infinite;
+}
+
+@keyframes moveStripes {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(50%);
+    }
+}
+
+/* RTP Color Variations Based on Percentage */
+.rtp-bar.low {
+    background: linear-gradient(90deg, var(--red-bar), #ff6b6b);
+}
+
+.rtp-bar.medium {
+    background: linear-gradient(90deg, var(--yellow-bar), #ffd700);
+}
+
+.rtp-bar.high {
+    background: linear-gradient(90deg, #00cc00, var(--green-bar));
+}
+
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+
+/* Tablet Devices */
+@media (max-width: 1024px) {
+    .games-grid {
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        gap: var(--spacing-sm);
+    }
+    
+    .main-title {
+        font-size: 2.5rem;
+    }
+    
+    .provider-title {
+        font-size: 2rem;
+    }
+}
+
+/* Mobile Devices */
+@media (max-width: 768px) {
+    .container {
+        padding: 0 var(--spacing-sm);
+    }
+    
+    .logo h1 {
+        font-size: 1.5rem;
+    }
+    
+    .register-btn {
+        padding: 0.6rem 1.5rem;
+        font-size: 0.9rem;
+    }
+    
+    .main-title {
+        font-size: 2rem;
+    }
+    
+    .description {
+        font-size: 0.9rem;
+    }
+    
+    .provider-tabs {
+        gap: var(--spacing-xs);
+        overflow-x: auto;
+        padding-bottom: 0.5rem;
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    .tab-btn {
+        padding: 0.6rem 1rem;
+        font-size: 0.8rem;
+        white-space: nowrap;
+    }
+    
+    .provider-header {
+        justify-content: center;
+        text-align: center;
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .provider-title {
+        font-size: 1.5rem;
+        width: 100%;
+    }
+    
+    .show-all-btn {
+        width: 100%;
+        justify-content: center;
+        padding: 0.8rem;
+    }
+    
+    /* OPTIMIZED: Exactly 3 columns on mobile */
+    .games-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.6rem;
+    }
+    
+    .game-image {
+        height: 200px; /* INCREASED from 140px */
+    }
+    
+    .rtp-bar-wrapper {
+        height: 38px; /* Match RTP bar height */
+    }
+    
+    .game-info {
+        padding: 0.6rem 0.4rem; /* Better spacing */
+    }
+    
+    .multiplier-text {
+        font-size: 0.9rem; /* Slightly larger */
+    }
+    
+    .multiplier-icons {
+        gap: 0.25rem;
+    }
+    
+    .multiplier-icons svg {
+        width: 15px;
+        height: 15px;
+    }
+    
+    .rtp-bar {
+        height: 38px; /* INCREASED from 28px */
+        font-size: 0.95rem; /* Larger text */
+        font-weight: 800;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        line-height: 1;
+        text-align: center;
+    }
+}
+
+/* Small Mobile Devices */
+@media (max-width: 480px) {
+    .container {
+        padding: 0 0.5rem;
+    }
+    
+    .logo h1 {
+        font-size: 1.2rem;
+        letter-spacing: 1px;
+    }
+    
+    .register-btn {
+        padding: 0.5rem 1rem;
+        font-size: 0.75rem;
+    }
+    
+    .main-title {
+        font-size: 1.3rem;
+    }
+    
+    .provider-title {
+        font-size: 1.2rem;
+    }
+    
+    .tab-btn {
+        padding: 0.5rem 0.8rem;
+        font-size: 0.75rem;
+    }
+    
+    /* OPTIMIZED: Still 3 columns but more compact */
+    .games-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.5rem;
+    }
+    
+    .game-image {
+        height: 170px; /* INCREASED from 120px */
+    }
+    
+    .rtp-bar-wrapper {
+        height: 35px; /* Match RTP bar height */
+    }
+    
+    .game-info {
+        padding: 0.5rem 0.3rem; /* Better spacing */
+    }
+    
+    .multiplier-text {
+        font-size: 0.8rem; /* Increased from 0.75rem */
+        font-weight: 700;
+    }
+    
+    .multiplier-icons svg {
+        width: 13px;
+        height: 13px;
+    }
+    
+    .rtp-bar {
+        height: 35px; /* INCREASED from 26px */
+        font-size: 0.85rem; /* Increased from 0.75rem */
+        font-weight: 800;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        line-height: 1;
+        text-align: center;
+    }
+    
+    .rtp-overlay {
+        padding: 5px;
+    }
+    
+    .show-all-btn {
+        font-size: 0.85rem;
+        padding: 0.7rem;
+    }
+}
+
+/* ============================================
+   LOADING STATE
+   ============================================ */
+.loading {
+    text-align: center;
+    padding: var(--spacing-xl);
+    font-size: 1.2rem;
+    color: var(--text-gray);
+}
+
+/* ============================================
+   STICKY BUTTON & POPUP
+   ============================================ */
+
+/* Sticky Register Button */
+.sticky-register-btn {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(135deg, var(--primary-red), var(--primary-pink));
+    color: var(--text-white);
+    border: none;
+    padding: 1rem 2.5rem;
+    font-size: 1.1rem;
+    font-weight: 900;
+    border-radius: var(--radius-lg);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    box-shadow: 0 6px 20px rgba(255, 23, 68, 0.5);
+    z-index: 1000;
+    min-width: 250px;
+    text-align: center;
+}
+
+.sticky-register-btn:hover {
+    transform: translateX(-50%) translateY(-3px);
+    box-shadow: 0 8px 25px rgba(255, 23, 68, 0.7);
+    background: linear-gradient(135deg, #ff0d3a, #ff4081);
+}
+
+.sticky-register-btn:active {
+    transform: translateX(-50%) translateY(-1px);
+}
+
+/* Popup Modal */
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(5px);
+    z-index: 2000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.popup-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.popup-modal {
+    background: linear-gradient(135deg, var(--card-bg), rgba(26, 26, 26, 0.95));
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    max-width: 500px;
+    width: 90%;
+    max-height: 80vh;
+    overflow-y: auto;
+    position: relative;
+    border: 2px solid rgba(255, 64, 129, 0.3);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+    transform: scale(0.8) translateY(50px);
+    transition: all 0.3s ease;
+}
+
+.popup-overlay.active .popup-modal {
+    transform: scale(1) translateY(0);
+}
+
+/* Popup Header */
+.popup-header {
+    text-align: center;
+    margin-bottom: 2rem;
+    border-bottom: 2px solid rgba(255, 64, 129, 0.2);
+    padding-bottom: 1rem;
+}
+
+.popup-title {
+    font-size: 1.8rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    background: linear-gradient(135deg, var(--primary-pink), var(--primary-purple));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.5rem;
+}
+
+.popup-subtitle {
+    color: var(--text-gray);
+    font-size: 0.95rem;
+}
+
+/* Close Button */
+.popup-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    color: var(--text-white);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.2rem;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.popup-close:hover {
+    background: rgba(255, 23, 68, 0.3);
+    transform: rotate(90deg);
+}
+
+/* Popup Buttons Grid */
+.popup-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.popup-btn {
+    background: linear-gradient(135deg, rgba(124, 77, 255, 0.2), rgba(255, 64, 129, 0.2));
+    color: var(--text-white);
+    border: 2px solid var(--primary-purple);
+    padding: 1.2rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 700;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: 60px;
+}
+
+.popup-btn:hover {
+    background: linear-gradient(135deg, var(--primary-purple), var(--primary-pink));
+    border-color: var(--primary-pink);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(124, 77, 255, 0.4);
+}
+
+.popup-btn:active {
+    transform: translateY(0);
+}
+
+/* Full Image Buttons */
+.popup-btn-image {
+    padding: 0;
+    background: transparent;
+    border: 3px solid rgba(255, 64, 129, 0.3);
+    overflow: hidden;
+    min-height: 120px;
+    height: 120px;
+}
+
+.popup-btn-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transition: transform 0.3s ease;
+    display: block;
+}
+
+.popup-btn-image:hover {
+    border-color: var(--primary-pink);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(255, 64, 129, 0.6);
+    background: transparent;
+}
+
+.popup-btn-image:hover img {
+    transform: scale(1.05);
+}
+
+.popup-btn-image:active {
+    transform: translateY(-1px);
+}
+
+/* Placeholder Buttons */
+.popup-btn-placeholder {
+    padding: 0;
+    background: linear-gradient(135deg, rgba(124, 77, 255, 0.1), rgba(255, 64, 129, 0.1));
+    border: 3px dashed rgba(255, 64, 129, 0.3);
+    overflow: hidden;
+    min-height: 120px;
+    height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.placeholder-content {
+    text-align: center;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.popup-btn-placeholder:hover {
+    border-color: var(--primary-pink);
+    background: linear-gradient(135deg, rgba(124, 77, 255, 0.2), rgba(255, 64, 129, 0.2));
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(255, 64, 129, 0.4);
+}
+
+.popup-btn-placeholder:hover .placeholder-content {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.popup-btn-placeholder:active {
+    transform: translateY(-1px);
+}
+
+/* Legacy Button Icons (for backward compatibility) */
+.popup-btn-icon {
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    overflow: hidden;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    transition: all 0.3s ease;
+}
+
+.popup-btn-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 6px;
+    transition: transform 0.3s ease;
+}
+
+.popup-btn:hover .popup-btn-icon {
+    border-color: rgba(255, 64, 129, 0.5);
+    background: rgba(255, 64, 129, 0.1);
+}
+
+.popup-btn:hover .popup-btn-icon img {
+    transform: scale(1.1);
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .sticky-register-btn {
+        bottom: 15px;
+        padding: 0.8rem 2rem;
+        font-size: 1rem;
+        min-width: 200px;
+    }
+    
+    .popup-modal {
+        padding: 1.5rem;
+        margin: 1rem;
+        width: calc(100% - 2rem);
+    }
+    
+    .popup-title {
+        font-size: 1.5rem;
+    }
+    
+    .popup-buttons {
+        gap: 0.8rem;
+    }
+    
+    .popup-btn {
+        padding: 1rem;
+        font-size: 0.9rem;
+        min-height: 50px;
+    }
+    
+    .popup-btn-image {
+        min-height: 100px;
+        height: 100px;
+    }
+    
+    .popup-btn-placeholder {
+        min-height: 100px;
+        height: 100px;
+    }
+    
+    .popup-btn-icon {
+        width: 35px;
+        height: 35px;
+    }
+}
+
+@media (max-width: 480px) {
+    .sticky-register-btn {
+        bottom: 10px;
+        padding: 0.7rem 1.5rem;
+        font-size: 0.9rem;
+        min-width: 180px;
+    }
+    
+    .popup-modal {
+        padding: 1rem;
+    }
+    
+    .popup-title {
+        font-size: 1.3rem;
+    }
+    
+    .popup-btn {
+        padding: 0.8rem;
+        font-size: 0.85rem;
+        min-height: 45px;
+    }
+    
+    .popup-btn-image {
+        min-height: 80px;
+        height: 80px;
+    }
+    
+    .popup-btn-placeholder {
+        min-height: 80px;
+        height: 80px;
+    }
+    
+    .popup-btn-icon {
+        width: 30px;
+        height: 30px;
+    }
+}
+
+/* ============================================
+   ANIMATIONS
+   ============================================ */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes popupFadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.8) translateY(50px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+.game-card {
+    animation: fadeIn 0.5s ease forwards;
+}
+
+/* Stagger animation for cards */
+.game-card:nth-child(1) { animation-delay: 0.05s; }
+.game-card:nth-child(2) { animation-delay: 0.1s; }
+.game-card:nth-child(3) { animation-delay: 0.15s; }
+.game-card:nth-child(4) { animation-delay: 0.2s; }
+.game-card:nth-child(5) { animation-delay: 0.25s; }
+.game-card:nth-child(6) { animation-delay: 0.3s; }
+

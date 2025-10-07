@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>POP REDE - RTP</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!---->
+    <!-- Header Section -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <h1>POP REDE</h1>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Hero Section -->
+            <section class="hero">
+                <h2 class="main-title">POP REDE - RTP</h2>
+                <p class="description">
+                    DESCRIPTION FOR LATER
+                </p>
+            </section>
+
+            <!-- Provider Filter Tabs -->
+            <section class="provider-tabs">
+                <button class="tab-btn active" data-provider="all">Todos (623)</button>
+                <button class="tab-btn" data-provider="HACKSAW">🔨 Hacksaw (118)</button>
+                <button class="tab-btn" data-provider="PG SOFT">🎮 PG Soft (84)</button>
+                <button class="tab-btn" data-provider="Pragmatic Play">⭐ Pragmatic (156)</button>
+                <button class="tab-btn" data-provider="Play N' GO">▶️ Play N' GO (118)</button>
+                <button class="tab-btn" data-provider="Playtech">🎰 Playtech (90)</button>
+                <button class="tab-btn" data-provider="TADA">🎲 TADAJILI (57)</button>
+            </section>
+
+            <!-- Provider Title and Controls -->
+            <div class="provider-header">
+                <h3 class="provider-title">JOGOS POP REDE - RTP</h3>
+                <button class="show-all-btn" id="showAllBtn">
+                    <span class="btn-text">Mostrar Todos</span>
+                    <span class="game-count"></span>
+                </button>
+            </div>
+
+            <!-- Games Grid -->
+            <section class="games-grid" id="gamesGrid">
+                <!-- Games will be dynamically loaded here by JavaScript -->
+            </section>
+        </div>
+    </main>
+
+    <!-- Sticky Register Button -->
+    <button class="sticky-register-btn" id="stickyRegisterBtn">
+        REGISTRAR NA POP
+    </button>
+
+    <!-- Popup Modal -->
+    <div class="popup-overlay" id="popupOverlay">
+        <div class="popup-modal">
+            <button class="popup-close" id="popupClose">&times;</button>
+            
+            <div class="popup-header">
+                <h3 class="popup-title">Registrar na POP</h3>
+                <p class="popup-subtitle">TAMBAH TEKS KALAU MAU</p>
+            </div>
+            
+            <div class="popup-buttons" id="popupButtons">
+                <!-- Row 1 -->
+                <a href="#" class="popup-btn popup-btn-image" data-url="https://example1.com">
+                    <img src="asset/POP1.png" alt="POP 1" />
+                </a>
+                <a href="#" class="popup-btn popup-btn-image" data-url="https://example2.com">
+                    <img src="asset/POP2.png" alt="POP 2" />
+                </a>
+                
+                <!-- Row 2 -->
+                <a href="#" class="popup-btn popup-btn-image" data-url="https://example3.com">
+                    <img src="asset/POP3.png" alt="POP 3" />
+                </a>
+                <a href="#" class="popup-btn popup-btn-image" data-url="https://example4.com">
+                    <img src="asset/POP4.png" alt="POP 4" />
+                </a>
+                
+                <!-- Row 3 - Placeholders -->
+                <a href="#" class="popup-btn popup-btn-placeholder" data-url="https://placeholder5.com">
+                    <div class="placeholder-content">
+                        <span>Platform 5</span>
+                    </div>
+                </a>
+                <a href="#" class="popup-btn popup-btn-placeholder" data-url="https://placeholder6.com">
+                    <div class="placeholder-content">
+                        <span>Platform 6</span>
+                    </div>
+                </a>
+                
+                <!-- Row 4 - Placeholders -->
+                <a href="#" class="popup-btn popup-btn-placeholder" data-url="https://placeholder7.com">
+                    <div class="placeholder-content">
+                        <span>Platform 7</span>
+                    </div>
+                </a>
+                <a href="#" class="popup-btn popup-btn-placeholder" data-url="https://placeholder8.com">
+                    <div class="placeholder-content">
+                        <span>Platform 8</span>
+                    </div>
+                </a>
+                
+                <!-- Row 5 - Placeholders -->
+                <a href="#" class="popup-btn popup-btn-placeholder" data-url="https://placeholder9.com">
+                    <div class="placeholder-content">
+                        <span>Platform 9</span>
+                    </div>
+                </a>
+                <a href="#" class="popup-btn popup-btn-placeholder" data-url="https://placeholder10.com">
+                    <div class="placeholder-content">
+                        <span>Platform 10</span>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="game-data.js"></script>
+    <!-- provider_image_lists.js is now optional - uses dynamic API instead -->
+    <script src="provider_image_lists.js" onerror="console.log('Using dynamic image discovery instead')"></script>
+    <script src="game_popularity.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
+

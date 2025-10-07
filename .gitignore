@@ -1,0 +1,34 @@
+# RTP Slot Gacor - Git Ignore File
+# Purpose: Excludes unnecessary files from version control
+
+# Images folder (users should add their own images)
+# Uncomment the line below if you don't want to track images
+# images/
+
+# OS Files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor Files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+.cursor/
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Temporary Files
+*.tmp
+*.temp
+~*
+
+# Cache
+.cache/
+*.cache
+
