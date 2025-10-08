@@ -318,6 +318,77 @@ function animateRTPBars() {
 }
 
 // ============================================
+// HAMBURGER MENU FUNCTIONALITY
+// ============================================
+
+/**
+ * Sets up the hamburger provider menu
+ */
+function setupHamburgerMenu() {
+    const hamburgerBtn = document.getElementById('hamburgerBtn');
+    const providerMenu = document.getElementById('providerMenu');
+    const providerItems = document.querySelectorAll('.provider-item');
+    const currentProviderName = document.getElementById('currentProviderName');
+    const currentProviderCount = document.getElementById('currentProviderCount');
+    
+    if (!hamburgerBtn || !providerMenu) return;
+    
+    // Toggle menu on hamburger button click
+    hamburgerBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        providerMenu.classList.toggle('active');
+    });
+    
+    // Close menu when clicking outside
+    document.addEventListener('click', function(e) {
+        if (!providerMenu.contains(e.target) && e.target !== hamburgerBtn) {
+            providerMenu.classList.remove('active');
+        }
+    });
+    
+    // Handle provider selection
+    providerItems.forEach(item => {
+        item.addEventListener('click', function(e) {
+            e.stopPropagation();
+            
+            // Update active state
+            providerItems.forEach(i => i.classList.remove('active'));
+            this.classList.add('active');
+            
+            // Get provider info
+            const provider = this.getAttribute('data-provider');
+            const providerText = this.querySelector('.provider-text').textContent;
+            const providerCount = this.querySelector('.provider-game-count').textContent;
+            
+            // Update hamburger button text
+            currentProviderName.textContent = providerText;
+            currentProviderCount.textContent = providerCount;
+            
+            // Update current provider
+            currentProvider = provider;
+            
+            // Reset to showing all games
+            showAllGames = true;
+            
+            // Render games
+            renderGameCards();
+            
+            // Close menu
+            providerMenu.classList.remove('active');
+            
+            // Scroll to games grid
+            const gamesGrid = document.getElementById('gamesGrid');
+            gamesGrid.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            
+            console.log(`📊 Switched to provider: ${providerText}`);
+        });
+    });
+    
+    console.log('✅ Hamburger menu initialized');
+}
+
+
+// ============================================
 // CAROUSEL FUNCTIONALITY
 // ============================================
 
@@ -331,7 +402,10 @@ function setupCarousel() {
     const nextBtn = document.getElementById('nextBtn');
     const dots = document.querySelectorAll('.dot');
     
-    if (!track || slides.length === 0) return;
+    if (!track || slides.length === 0) {
+        console.warn('⚠️ Carousel elements not found');
+        return;
+    }
     
     let currentSlide = 0;
     const totalSlides = slides.length;
@@ -433,79 +507,8 @@ function setupCarousel() {
     updateCarousel();
     startAutoSlide();
     
-    console.log('✅ Carousel initialized with', totalSlides, 'slides');
+    console.log(`✅ Carousel initialized with ${totalSlides} slides`);
 }
-
-// ============================================
-// HAMBURGER MENU FUNCTIONALITY
-// ============================================
-
-/**
- * Sets up the hamburger provider menu
- */
-function setupHamburgerMenu() {
-    const hamburgerBtn = document.getElementById('hamburgerBtn');
-    const providerMenu = document.getElementById('providerMenu');
-    const providerItems = document.querySelectorAll('.provider-item');
-    const currentProviderName = document.getElementById('currentProviderName');
-    const currentProviderCount = document.getElementById('currentProviderCount');
-    
-    if (!hamburgerBtn || !providerMenu) return;
-    
-    // Toggle menu on hamburger button click
-    hamburgerBtn.addEventListener('click', function(e) {
-        e.stopPropagation();
-        providerMenu.classList.toggle('active');
-    });
-    
-    // Close menu when clicking outside
-    document.addEventListener('click', function(e) {
-        if (!providerMenu.contains(e.target) && e.target !== hamburgerBtn) {
-            providerMenu.classList.remove('active');
-        }
-    });
-    
-    // Handle provider selection
-    providerItems.forEach(item => {
-        item.addEventListener('click', function(e) {
-            e.stopPropagation();
-            
-            // Update active state
-            providerItems.forEach(i => i.classList.remove('active'));
-            this.classList.add('active');
-            
-            // Get provider info
-            const provider = this.getAttribute('data-provider');
-            const providerText = this.querySelector('.provider-text').textContent;
-            const providerCount = this.querySelector('.provider-game-count').textContent;
-            
-            // Update hamburger button text
-            currentProviderName.textContent = providerText;
-            currentProviderCount.textContent = providerCount;
-            
-            // Update current provider
-            currentProvider = provider;
-            
-            // Reset to showing all games
-            showAllGames = true;
-            
-            // Render games
-            renderGameCards();
-            
-            // Close menu
-            providerMenu.classList.remove('active');
-            
-            // Scroll to games grid
-            const gamesGrid = document.getElementById('gamesGrid');
-            gamesGrid.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            
-            console.log(`📊 Switched to provider: ${providerText}`);
-        });
-    });
-    
-    console.log('✅ Hamburger menu initialized');
-}
-
 
 // ============================================
 // AUTO-REFRESH FUNCTIONALITY

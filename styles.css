@@ -49,8 +49,8 @@ body {
 
 .container {
     max-width: 1400px;
-    margin: 2 t;
-    padding: 2 var(--spacing-md);
+    margin: 0 auto;
+    padding: 0 var(--spacing-md);
 }
 
 /* ============================================
@@ -59,7 +59,7 @@ body {
 .sticky-header {
     position: fixed;
     top: 0;
-    margin-left: 600px;
+    left: 0;
     width: 100%;
     background: linear-gradient(135deg, rgba(10, 10, 10, 0.98), rgba(26, 26, 26, 0.98));
     border-bottom: 3px solid rgba(255, 23, 68, 0.5);
@@ -95,16 +95,16 @@ body {
     }
 }
 
+/* Adjust main content to account for sticky header */
 .main-content {
-    margin-top: 120px;
-    margin-left: 600px;
+    margin-top: 80px;
 }
 
 /* ============================================
    BANNER CAROUSEL
    ============================================ */
 .banner-carousel {
-    margin: 2rem 0;
+    margin: 2rem 0 3rem 0;
     padding: 0;
 }
 
@@ -116,6 +116,7 @@ body {
     border-radius: var(--radius-lg);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
     border: 3px solid rgba(255, 64, 129, 0.3);
+    background: rgba(26, 26, 26, 0.8);
 }
 
 .carousel-track {
@@ -163,6 +164,10 @@ body {
     background: rgba(255, 23, 68, 0.95);
     transform: translateY(-50%) scale(1.1);
     box-shadow: 0 6px 20px rgba(255, 64, 129, 0.6);
+}
+
+.carousel-btn:active {
+    transform: translateY(-50%) scale(1.05);
 }
 
 .carousel-btn-prev {
@@ -545,7 +550,7 @@ body {
     
     /* Sticky Header Mobile */
     .header-title {
-        font-size: 2.8rem;
+        font-size: 1.4rem;
         letter-spacing: 2px;
     }
     
@@ -553,9 +558,9 @@ body {
         margin-top: 70px;
     }
     
-    /* Carousel Mobile */
+    /* Banner Carousel Mobile */
     .banner-carousel {
-        margin: 1.5rem 0;
+        margin: 1.5rem 0 2rem 0;
     }
     
     .carousel-container {
@@ -751,7 +756,7 @@ body {
     
     /* Header Title Small Mobile */
     .header-title {
-        font-size: 1.5rem;
+        font-size: 1.1rem;
         letter-spacing: 1.5px;
     }
     
@@ -759,9 +764,9 @@ body {
         margin-top: 60px;
     }
     
-    /* Carousel Small Mobile */
+    /* Banner Carousel Small Mobile */
     .banner-carousel {
-        margin: 1rem 0;
+        margin: 1rem 0 1.5rem 0;
     }
     
     .carousel-container {
@@ -876,10 +881,9 @@ body {
     }
     
     .multiplier-text {
-        font-size: 1.0rem;
+        font-size: 0.7rem;
         font-weight: 700;
-        color: var(--text-white);
-        background: var(--text-white);
+        background: linear-gradient(135deg, var(--primary-pink), var(--primary-purple));
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
