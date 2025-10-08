@@ -97,7 +97,7 @@ function generateRandomRTP(gameId) {
 }
 
 /**
- * Generates a time-based multiplier configuration
+ * Generates a time-based multiplier configuration with Manual/Auto text
  */
 function generateRandomMultiplier(gameId) {
     const timeSeed = getTimeSeed();
@@ -107,9 +107,15 @@ function generateRandomMultiplier(gameId) {
     const multiplierIndex = getSeededRandomInt(multiplierSeed, 0, CONFIG.multipliers.length - 1);
     const multiplier = CONFIG.multipliers[multiplierIndex];
     
+    // Randomly determine if it's Manual or Auto (changes every minute)
+    const textSeed = (timeSeed * 1000 + gameNumericId) * 11;
+    const isManual = getSeededRandomInt(textSeed, 0, 1) === 1;
+    const text = isManual ? 'Manual' : 'Auto';
+    
     return {
         value: multiplier.value,
-        type: multiplier.type
+        type: multiplier.type,
+        text: text
     };
 }
 
@@ -244,7 +250,7 @@ function createGameCard(game, index) {
         </div>
         <div class="game-info">
             <div class="multiplier">
-                <div class="multiplier-text">${multiplier.value} Manual</div>
+                <div class="multiplier-text">${multiplier.value} ${multiplier.text}</div>
             </div>
             <div class="rtp-container">
                 <div class="rtp-bar-wrapper">
@@ -284,10 +290,8 @@ function createGameCard(game, index) {
     // Get filtered games
     const filteredGames = filterGamesByProvider(currentProvider);
     
-    // Determine how many cards to show
-    const maxCards = (showAllGames || CONFIG.gamesPerProvider === 0) 
-        ? filteredGames.length 
-        : Math.min(CONFIG.gamesPerProvider, filteredGames.length);
+    // Show all games (no limit)
+    const maxCards = filteredGames.length;
     
     // Create and append cards
     for (let i = 0; i < maxCards; i++) {
@@ -295,9 +299,6 @@ function createGameCard(game, index) {
         const card = createGameCard(game, i);
         grid.appendChild(card);
     }
-    
-    // Update button
-    updateShowAllButton();
     
     // Animate RTP bars
     setTimeout(animateRTPBars, 100);
@@ -317,85 +318,194 @@ function animateRTPBars() {
 }
 
 // ============================================
-// SHOW ALL FUNCTIONALITY
+// CAROUSEL FUNCTIONALITY
 // ============================================
 
 /**
- * Updates the Show All button
+ * Sets up the banner carousel with auto-slide and navigation
  */
-function updateShowAllButton() {
-    const showAllBtn = document.getElementById('showAllBtn');
-    if (!showAllBtn) return;
+function setupCarousel() {
+    const track = document.getElementById('carouselTrack');
+    const slides = document.querySelectorAll('.carousel-slide');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const dots = document.querySelectorAll('.dot');
     
-    const btnText = showAllBtn.querySelector('.btn-text');
-    const gameCount = showAllBtn.querySelector('.game-count');
+    if (!track || slides.length === 0) return;
     
-    const filteredGames = filterGamesByProvider(currentProvider);
-    const totalGames = filteredGames.length;
+    let currentSlide = 0;
+    const totalSlides = slides.length;
+    let autoSlideInterval;
     
-    if (showAllGames || CONFIG.gamesPerProvider === 0) {
-        btnText.textContent = 'Mostrar Menos';
-        gameCount.textContent = `${totalGames}`;
-        showAllBtn.classList.add('active');
-    } else {
-        const displayedCount = Math.min(CONFIG.gamesPerProvider, totalGames);
-        btnText.textContent = 'Mostrar Todos';
-        gameCount.textContent = `${displayedCount}/${totalGames}`;
-        showAllBtn.classList.remove('active');
-    }
-}
-
-/**
- * Sets up the Show All button
- */
-function setupShowAllButton() {
-    const showAllBtn = document.getElementById('showAllBtn');
-    if (!showAllBtn) return;
-    
-    showAllBtn.addEventListener('click', function() {
-        showAllGames = !showAllGames;
-        renderGameCards();
+    // Update carousel position
+    function updateCarousel() {
+        const offset = -currentSlide * 100;
+        track.style.transform = `translateX(${offset}%)`;
         
-        const gamesGrid = document.getElementById('gamesGrid');
-        gamesGrid.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        // Update dots
+        dots.forEach((dot, index) => {
+            dot.classList.toggle('active', index === currentSlide);
+        });
+    }
+    
+    // Go to specific slide
+    function goToSlide(index) {
+        currentSlide = index;
+        if (currentSlide < 0) currentSlide = totalSlides - 1;
+        if (currentSlide >= totalSlides) currentSlide = 0;
+        updateCarousel();
+        resetAutoSlide();
+    }
+    
+    // Next slide
+    function nextSlide() {
+        goToSlide(currentSlide + 1);
+    }
+    
+    // Previous slide
+    function prevSlide() {
+        goToSlide(currentSlide - 1);
+    }
+    
+    // Auto slide function
+    function startAutoSlide() {
+        autoSlideInterval = setInterval(nextSlide, 5000); // 5 seconds
+    }
+    
+    // Reset auto slide
+    function resetAutoSlide() {
+        clearInterval(autoSlideInterval);
+        startAutoSlide();
+    }
+    
+    // Event listeners
+    if (nextBtn) {
+        nextBtn.addEventListener('click', nextSlide);
+    }
+    
+    if (prevBtn) {
+        prevBtn.addEventListener('click', prevSlide);
+    }
+    
+    // Dot navigation
+    dots.forEach((dot, index) => {
+        dot.addEventListener('click', () => {
+            goToSlide(index);
+        });
     });
+    
+    // Touch/Swipe support
+    let touchStartX = 0;
+    let touchEndX = 0;
+    
+    track.addEventListener('touchstart', (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+    });
+    
+    track.addEventListener('touchend', (e) => {
+        touchEndX = e.changedTouches[0].screenX;
+        handleSwipe();
+    });
+    
+    function handleSwipe() {
+        const swipeThreshold = 50;
+        const diff = touchStartX - touchEndX;
+        
+        if (Math.abs(diff) > swipeThreshold) {
+            if (diff > 0) {
+                nextSlide(); // Swipe left
+            } else {
+                prevSlide(); // Swipe right
+            }
+        }
+    }
+    
+    // Pause auto-slide on hover
+    track.addEventListener('mouseenter', () => {
+        clearInterval(autoSlideInterval);
+    });
+    
+    track.addEventListener('mouseleave', () => {
+        startAutoSlide();
+    });
+    
+    // Initialize
+    updateCarousel();
+    startAutoSlide();
+    
+    console.log('✅ Carousel initialized with', totalSlides, 'slides');
 }
 
 // ============================================
-// PROVIDER TAB FUNCTIONALITY
+// HAMBURGER MENU FUNCTIONALITY
 // ============================================
 
 /**
- * Handles provider tab switching
+ * Sets up the hamburger provider menu
  */
- function setupProviderTabs() {
-     const tabs = document.querySelectorAll('.tab-btn');
-     const providerTitle = document.querySelector('.provider-title');
-     
-     tabs.forEach(tab => {
-         tab.addEventListener('click', function() {
-             tabs.forEach(t => t.classList.remove('active'));
-             this.classList.add('active');
-             
-             currentProvider = this.getAttribute('data-provider');
-             
-            // Update title
-            let titleText = 'TODOS OS JOGOS';
-             if (currentProvider !== 'all') {
-                titleText = currentProvider.toUpperCase();
-             }
-             if (providerTitle) providerTitle.textContent = titleText;
-             
-            // Reset to showing limited games
-             showAllGames = false;
-             
-             renderGameCards();
-             
-             const gamesGrid = document.getElementById('gamesGrid');
-             gamesGrid.scrollIntoView({ behavior: 'smooth', block: 'start' });
-         });
-     });
- }
+function setupHamburgerMenu() {
+    const hamburgerBtn = document.getElementById('hamburgerBtn');
+    const providerMenu = document.getElementById('providerMenu');
+    const providerItems = document.querySelectorAll('.provider-item');
+    const currentProviderName = document.getElementById('currentProviderName');
+    const currentProviderCount = document.getElementById('currentProviderCount');
+    
+    if (!hamburgerBtn || !providerMenu) return;
+    
+    // Toggle menu on hamburger button click
+    hamburgerBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        providerMenu.classList.toggle('active');
+    });
+    
+    // Close menu when clicking outside
+    document.addEventListener('click', function(e) {
+        if (!providerMenu.contains(e.target) && e.target !== hamburgerBtn) {
+            providerMenu.classList.remove('active');
+        }
+    });
+    
+    // Handle provider selection
+    providerItems.forEach(item => {
+        item.addEventListener('click', function(e) {
+            e.stopPropagation();
+            
+            // Update active state
+            providerItems.forEach(i => i.classList.remove('active'));
+            this.classList.add('active');
+            
+            // Get provider info
+            const provider = this.getAttribute('data-provider');
+            const providerText = this.querySelector('.provider-text').textContent;
+            const providerCount = this.querySelector('.provider-game-count').textContent;
+            
+            // Update hamburger button text
+            currentProviderName.textContent = providerText;
+            currentProviderCount.textContent = providerCount;
+            
+            // Update current provider
+            currentProvider = provider;
+            
+            // Reset to showing all games
+            showAllGames = true;
+            
+            // Render games
+            renderGameCards();
+            
+            // Close menu
+            providerMenu.classList.remove('active');
+            
+            // Scroll to games grid
+            const gamesGrid = document.getElementById('gamesGrid');
+            gamesGrid.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            
+            console.log(`📊 Switched to provider: ${providerText}`);
+        });
+    });
+    
+    console.log('✅ Hamburger menu initialized');
+}
+
 
 // ============================================
 // AUTO-REFRESH FUNCTIONALITY
@@ -595,8 +705,8 @@ async function init() {
     }
     
     // Setup event listeners
-    setupProviderTabs();
-    setupShowAllButton();
+    setupCarousel(); // Initialize carousel
+    setupHamburgerMenu();
     setupPopupFunctionality(); // Add popup functionality
     
     // Initial render

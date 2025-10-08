@@ -8,46 +8,89 @@
 </head>
 <body>
 
-    <!---->
-    <!-- Header Section -->
-    <header class="header">
+    <!-- Sticky Header with Title -->
+    <header class="sticky-header" id="stickyHeader">
         <div class="container">
-            <div class="logo">
-                <h1>POP REDE</h1>
+            <div class="header-content">
+                <h1 class="header-title">JOGOS POP REDE - RTP</h1>
             </div>
         </div>
     </header>
-    
+
     <!-- Main Content -->
     <main class="main-content">
         <div class="container">
-            <!-- Hero Section -->
-            <section class="hero">
-                <h2 class="main-title">POP REDE - RTP</h2>
-                <p class="description">
-                    DESCRIPTION FOR LATER
-                </p>
+            <!-- Banner Carousel -->
+            <section class="banner-carousel">
+                <div class="carousel-container">
+                    <div class="carousel-track" id="carouselTrack">
+                        <div class="carousel-slide">
+                            <img src="asset/banner/SLIDING EXAMPLE 1.png" alt="Banner 1">
+                        </div>
+                        <div class="carousel-slide">
+                            <img src="asset/banner/SLIDING EXAMPLE 1.png" alt="Banner 2">
+                        </div>
+                        <div class="carousel-slide">
+                            <img src="asset/banner/SLIDING EXAMPLE 1.png" alt="Banner 3">
+                        </div>
+                    </div>
+                    
+                    <!-- Navigation Arrows -->
+                    <button class="carousel-btn carousel-btn-prev" id="prevBtn">
+                        <span>‹</span>
+                    </button>
+                    <button class="carousel-btn carousel-btn-next" id="nextBtn">
+                        <span>›</span>
+                    </button>
+                    
+                    <!-- Dots Indicator -->
+                    <div class="carousel-dots" id="carouselDots">
+                        <span class="dot active" data-slide="0"></span>
+                        <span class="dot" data-slide="1"></span>
+                        <span class="dot" data-slide="2"></span>
+                    </div>
+                </div>
             </section>
 
-            <!-- Provider Filter Tabs -->
-            <section class="provider-tabs">
-                <button class="tab-btn active" data-provider="all">Todos (623)</button>
-                <button class="tab-btn" data-provider="HACKSAW">🔨 Hacksaw (118)</button>
-                <button class="tab-btn" data-provider="PG SOFT">🎮 PG Soft (84)</button>
-                <button class="tab-btn" data-provider="Pragmatic Play">⭐ Pragmatic (156)</button>
-                <button class="tab-btn" data-provider="Play N' GO">▶️ Play N' GO (118)</button>
-                <button class="tab-btn" data-provider="Playtech">🎰 Playtech (90)</button>
-                <button class="tab-btn" data-provider="TADA">🎲 TADAJILI (57)</button>
-            </section>
-
-            <!-- Provider Title and Controls -->
-            <div class="provider-header">
-                <h3 class="provider-title">JOGOS POP REDE - RTP</h3>
-                <button class="show-all-btn" id="showAllBtn">
-                    <span class="btn-text">Mostrar Todos</span>
-                    <span class="game-count"></span>
+            <!-- Hamburger Provider Menu -->
+            <section class="provider-section">
+                <button class="hamburger-btn" id="hamburgerBtn">
+                    <span class="provider-name" id="currentProviderName">TODOS</span>
+                    <span class="provider-count" id="currentProviderCount">(623)</span>
+                    <span class="hamburger-icon">☰</span>
                 </button>
-            </div>
+                
+                <div class="provider-menu" id="providerMenu">
+                    <button class="provider-item active" data-provider="all">
+                        <span class="provider-text">🎮 TODOS</span>
+                        <span class="provider-game-count">(623)</span>
+                    </button>
+                    <button class="provider-item" data-provider="HACKSAW">
+                        <span class="provider-text">🔨 HACKSAW</span>
+                        <span class="provider-game-count">(118)</span>
+                    </button>
+                    <button class="provider-item" data-provider="PG SOFT">
+                        <span class="provider-text">🎮 PG SOFT</span>
+                        <span class="provider-game-count">(84)</span>
+                    </button>
+                    <button class="provider-item" data-provider="Pragmatic Play">
+                        <span class="provider-text">⭐ PRAGMATIC</span>
+                        <span class="provider-game-count">(156)</span>
+                    </button>
+                    <button class="provider-item" data-provider="Play N' GO">
+                        <span class="provider-text">▶️ PLAY N' GO</span>
+                        <span class="provider-game-count">(118)</span>
+                    </button>
+                    <button class="provider-item" data-provider="Playtech">
+                        <span class="provider-text">🎰 PLAYTECH</span>
+                        <span class="provider-game-count">(90)</span>
+                    </button>
+                    <button class="provider-item" data-provider="TADA">
+                        <span class="provider-text">🎲 TADA GAMING</span>
+                        <span class="provider-game-count">(57)</span>
+                    </button>
+                </div>
+            </section>
 
             <!-- Games Grid -->
             <section class="games-grid" id="gamesGrid">
@@ -154,4 +197,3 @@
     <script src="script.js"></script>
 </body>
 </html>
-

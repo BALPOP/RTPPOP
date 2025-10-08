@@ -49,181 +49,315 @@ body {
 
 .container {
     max-width: 1400px;
-    margin: 0 auto;
-    padding: 0 var(--spacing-md);
+    margin: 2 t;
+    padding: 2 var(--spacing-md);
 }
 
 /* ============================================
-   HEADER SECTION
+   STICKY HEADER SECTION
    ============================================ */
-.header {
-    padding: var(--spacing-md) 0;
-    background: linear-gradient(135deg, rgba(26, 26, 26, 0.95), rgba(10, 10, 10, 0.95));
-    border-bottom: 2px solid rgba(255, 23, 68, 0.3);
-    position: sticky;
+.sticky-header {
+    position: fixed;
     top: 0;
-    z-index: 100;
-    backdrop-filter: blur(10px);
+    margin-left: 600px;
+    width: 100%;
+    background: linear-gradient(135deg, rgba(10, 10, 10, 0.98), rgba(26, 26, 26, 0.98));
+    border-bottom: 3px solid rgba(255, 23, 68, 0.5);
+    z-index: 1000;
+    backdrop-filter: blur(15px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
 }
 
-.header .container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-/* Logo Styling */
-.logo h1 {
-    font-size: 2rem;
-    font-weight: 900;
-    line-height: 1.2;
-    background: linear-gradient(135deg, var(--primary-pink), var(--primary-purple));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    letter-spacing: 2px;
-}
-
-/* Register Button */
-.register-btn {
-    background: linear-gradient(135deg, var(--primary-red), var(--primary-pink));
-    color: var(--text-white);
-    border: none;
-    padding: 0.8rem 2.5rem;
-    font-size: 1rem;
-    font-weight: 700;
-    border-radius: var(--radius-lg);
-    cursor: pointer;
-    transition: all 0.3s ease;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    box-shadow: 0 4px 15px rgba(255, 23, 68, 0.4);
-}
-
-.register-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(255, 23, 68, 0.6);
-}
-
-/* ============================================
-   HERO SECTION
-   ============================================ */
-.hero {
+.header-content {
+    padding: 1rem 0;
     text-align: center;
-    padding: var(--spacing-xl) 0;
 }
 
-.main-title {
-    font-size: 3rem;
+.header-title {
+    font-size: 1.8rem;
     font-weight: 900;
-    margin-bottom: var(--spacing-md);
+    margin: 0;
     text-transform: uppercase;
     letter-spacing: 3px;
     background: linear-gradient(135deg, var(--primary-pink), var(--primary-purple));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+    animation: headerPulse 3s ease-in-out infinite;
 }
 
-.description {
-    color: var(--text-gray);
-    max-width: 1000px;
-    margin: 0 auto;
-    font-size: 1rem;
-    line-height: 1.8;
+@keyframes headerPulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.8;
+    }
 }
 
-
-.provider-tabs {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: var(--spacing-sm);
-    margin: var(--spacing-lg) 0;
-}
-
-.tab-btn {
-    background: var(--card-bg);
-    color: var(--text-white);
-    border: 2px solid transparent;
-    padding: 0.8rem 2rem;
-    font-size: 0.95rem;
-    font-weight: 700;
-    border-radius: var(--radius-md);
-    cursor: pointer;
-    transition: all 0.3s ease;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
-
-.tab-btn:hover {
-    border-color: var(--primary-pink);
-    background: rgba(255, 64, 129, 0.1);
-}
-
-.tab-btn.active {
-    background: linear-gradient(135deg, var(--primary-red), var(--primary-pink));
-    border-color: var(--primary-red);
-    box-shadow: 0 4px 15px rgba(255, 23, 68, 0.4);
+.main-content {
+    margin-top: 120px;
+    margin-left: 600px;
 }
 
 /* ============================================
-   PROVIDER TITLE & HEADER
+   BANNER CAROUSEL
    ============================================ */
-.provider-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: var(--spacing-lg) 0;
-    flex-wrap: wrap;
-    gap: var(--spacing-sm);
+.banner-carousel {
+    margin: 2rem 0;
+    padding: 0;
 }
 
-.provider-title {
-    font-size: 2.5rem;
-    font-weight: 900;
+.carousel-container {
+    position: relative;
+    max-width: 1200px;
+    margin: 0 auto;
+    overflow: hidden;
+    border-radius: var(--radius-lg);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    border: 3px solid rgba(255, 64, 129, 0.3);
+}
+
+.carousel-track {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+    width: 100%;
+}
+
+.carousel-slide {
+    min-width: 100%;
+    position: relative;
+}
+
+.carousel-slide img {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+}
+
+/* Navigation Buttons */
+.carousel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 64, 129, 0.8);
+    color: white;
+    border: none;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    font-weight: bold;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.carousel-btn:hover {
+    background: rgba(255, 23, 68, 0.95);
+    transform: translateY(-50%) scale(1.1);
+    box-shadow: 0 6px 20px rgba(255, 64, 129, 0.6);
+}
+
+.carousel-btn-prev {
+    left: 20px;
+}
+
+.carousel-btn-next {
+    right: 20px;
+}
+
+.carousel-btn span {
+    line-height: 0;
+}
+
+/* Dots Indicator */
+.carousel-dots {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+    z-index: 10;
+}
+
+.dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 2px solid rgba(255, 255, 255, 0.8);
+}
+
+.dot:hover {
+    background: rgba(255, 255, 255, 0.8);
+    transform: scale(1.2);
+}
+
+.dot.active {
+    background: var(--primary-pink);
+    border-color: var(--primary-pink);
+    width: 30px;
+    border-radius: 6px;
+    box-shadow: 0 2px 10px rgba(255, 64, 129, 0.6);
+}
+
+/* ============================================
+   HAMBURGER PROVIDER MENU
+   ============================================ */
+.provider-section {
+    text-align: center;
+    margin: var(--spacing-xl) 0;
+    position: relative;
+}
+
+/* Hamburger Button */
+.hamburger-btn {
+    background: linear-gradient(135deg, var(--primary-red), var(--primary-pink));
+    color: var(--text-white);
+    border: none;
+    padding: 1.2rem 2rem;
+    font-size: 1.1rem;
+    font-weight: 800;
+    border-radius: var(--radius-lg);
+    cursor: pointer;
+    transition: all 0.3s ease;
     text-transform: uppercase;
     letter-spacing: 2px;
-    margin: 0;
+    box-shadow: 0 6px 20px rgba(255, 23, 68, 0.5);
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    min-width: 350px;
+    max-width: 500px;
+    width: 90%;
 }
 
-/* Show All Button */
-.show-all-btn {
-    background: linear-gradient(135deg, rgba(124, 77, 255, 0.2), rgba(255, 64, 129, 0.2));
-    color: var(--text-white);
-    border: 2px solid var(--primary-purple);
-    padding: 0.8rem 1.5rem;
+.hamburger-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(255, 23, 68, 0.7);
+    background: linear-gradient(135deg, #ff0d3a, #ff4081);
+}
+
+.hamburger-btn:active {
+    transform: translateY(-1px);
+}
+
+.provider-name {
+    flex: 1;
+    text-align: left;
+    font-size: 1.1rem;
+}
+
+.provider-count {
+    background: rgba(255, 255, 255, 0.3);
+    padding: 0.4rem 1rem;
+    border-radius: var(--radius-md);
     font-size: 0.95rem;
+    font-weight: 900;
+}
+
+.hamburger-icon {
+    font-size: 1.5rem;
+    transition: transform 0.3s ease;
+}
+
+.hamburger-btn:hover .hamburger-icon {
+    transform: rotate(90deg);
+}
+
+/* Provider Menu Dropdown */
+.provider-menu {
+    position: absolute;
+    top: calc(100% + 1rem);
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(135deg, var(--card-bg), rgba(26, 26, 26, 0.98));
+    border-radius: var(--radius-lg);
+    padding: 1rem;
+    min-width: 350px;
+    max-width: 500px;
+    width: 90%;
+    border: 3px solid rgba(255, 64, 129, 0.4);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
+    z-index: 999;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(-50%) translateY(-20px);
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    max-height: 70vh;
+    overflow-y: auto;
+}
+
+.provider-menu.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+}
+
+/* Provider Menu Items */
+.provider-item {
+    width: 100%;
+    background: rgba(26, 26, 26, 0.9);
+    color: var(--text-white);
+    border: 2px solid rgba(255, 64, 129, 0.2);
+    padding: 1.2rem 1.5rem;
+    font-size: 1rem;
     font-weight: 700;
     border-radius: var(--radius-md);
     cursor: pointer;
     transition: all 0.3s ease;
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 1.5px;
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    justify-content: space-between;
+    margin-bottom: 0.8rem;
 }
 
-.show-all-btn:hover {
-    background: linear-gradient(135deg, var(--primary-purple), var(--primary-pink));
+.provider-item:last-child {
+    margin-bottom: 0;
+}
+
+.provider-item:hover {
     border-color: var(--primary-pink);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 15px rgba(124, 77, 255, 0.4);
+    background: linear-gradient(135deg, rgba(255, 64, 129, 0.2), rgba(124, 77, 255, 0.2));
+    transform: translateX(8px);
+    box-shadow: 0 4px 15px rgba(255, 64, 129, 0.3);
 }
 
-.show-all-btn.active {
-    background: linear-gradient(135deg, var(--primary-purple), var(--primary-pink));
+.provider-item.active {
+    background: linear-gradient(135deg, var(--primary-red), var(--primary-pink));
     border-color: var(--primary-pink);
-    box-shadow: 0 4px 15px rgba(124, 77, 255, 0.4);
+    box-shadow: 0 6px 20px rgba(255, 23, 68, 0.5);
+    transform: translateX(8px);
 }
 
-.show-all-btn .game-count {
-    background: rgba(255, 255, 255, 0.2);
-    padding: 0.2rem 0.6rem;
-    border-radius: var(--radius-sm);
-    font-size: 0.85rem;
-    font-weight: 900;
+.provider-text {
+    flex: 1;
+    text-align: left;
+    font-size: 0.95rem;
+}
+
+.provider-game-count {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.provider-item.active .provider-game-count {
+    color: rgba(255, 255, 255, 0.95);
+    font-weight: 800;
 }
 
 .games-grid {
@@ -406,165 +540,371 @@ body {
 /* Mobile Devices */
 @media (max-width: 768px) {
     .container {
-        padding: 0 var(--spacing-sm);
+        padding: 0 1.2rem;
     }
     
-    .logo h1 {
+    /* Sticky Header Mobile */
+    .header-title {
+        font-size: 2.8rem;
+        letter-spacing: 2px;
+    }
+    
+    .main-content {
+        margin-top: 70px;
+    }
+    
+    /* Carousel Mobile */
+    .banner-carousel {
+        margin: 1.5rem 0;
+    }
+    
+    .carousel-container {
+        border-radius: var(--radius-md);
+        border: 2px solid rgba(255, 64, 129, 0.3);
+    }
+    
+    .carousel-btn {
+        width: 40px;
+        height: 40px;
         font-size: 1.5rem;
     }
     
-    .register-btn {
-        padding: 0.6rem 1.5rem;
-        font-size: 0.9rem;
+    .carousel-btn-prev {
+        left: 10px;
     }
     
-    .main-title {
-        font-size: 2rem;
+    .carousel-btn-next {
+        right: 10px;
     }
     
-    .description {
-        font-size: 0.9rem;
+    .carousel-dots {
+        bottom: 15px;
+        gap: 8px;
     }
     
-    .provider-tabs {
-        gap: var(--spacing-xs);
-        overflow-x: auto;
-        padding-bottom: 0.5rem;
-        -webkit-overflow-scrolling: touch;
+    .dot {
+        width: 10px;
+        height: 10px;
     }
     
-    .tab-btn {
-        padding: 0.6rem 1rem;
-        font-size: 0.8rem;
-        white-space: nowrap;
+    .dot.active {
+        width: 25px;
     }
     
-    .provider-header {
-        justify-content: center;
-        text-align: center;
-        flex-direction: column;
+    /* Hamburger Menu Mobile */
+    .provider-section {
+        margin: 2rem 0 1.5rem 0;
+    }
+    
+    .hamburger-btn {
+        min-width: 300px;
+        width: 95%;
+        padding: 1rem 1.5rem;
+        font-size: 1rem;
         gap: 1rem;
     }
     
-    .provider-title {
-        font-size: 1.5rem;
-        width: 100%;
+    .provider-name {
+        font-size: 1rem;
     }
     
-    .show-all-btn {
-        width: 100%;
-        justify-content: center;
+    .provider-count {
+        padding: 0.3rem 0.8rem;
+        font-size: 0.85rem;
+    }
+    
+    .provider-menu {
+        min-width: 300px;
+        width: 95%;
         padding: 0.8rem;
+        max-height: 60vh;
     }
     
-    /* OPTIMIZED: Exactly 3 columns on mobile */
+    .provider-item {
+        padding: 1rem 1.2rem;
+        font-size: 0.9rem;
+        margin-bottom: 0.6rem;
+    }
+    
+    .provider-text {
+        font-size: 0.9rem;
+    }
+    
+    .provider-game-count {
+        font-size: 0.85rem;
+    }
+    
+    /* Enhanced Games Grid - 2 columns for tablets */
     .games-grid {
-        grid-template-columns: repeat(3, 1fr);
-        gap: 0.6rem;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.8rem;
+        margin-top: 1.5rem;
+        padding: 0 0.5rem;
+    }
+    
+    .game-card {
+        border-radius: 16px;
+        background: rgba(26, 26, 26, 0.8);
+        border: 2px solid rgba(255, 64, 129, 0.2);
+        overflow: hidden;
+        transition: all 0.3s ease;
+    }
+    
+    .game-card:active {
+        transform: scale(0.98);
+        border-color: var(--primary-pink);
+        box-shadow: 0 4px 20px rgba(255, 64, 129, 0.4);
     }
     
     .game-image {
-        height: 200px; /* INCREASED from 140px */
+        height: 160px;
+        border-radius: 14px 14px 0 0;
+        overflow: hidden;
     }
     
-    .rtp-bar-wrapper {
-        height: 38px; /* Match RTP bar height */
+    .game-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+    }
+    
+    .game-card:active .game-image img {
+        transform: scale(1.05);
     }
     
     .game-info {
-        padding: 0.6rem 0.4rem; /* Better spacing */
+        padding: 0.8rem 0.6rem;
+        background: rgba(10, 10, 10, 0.8);
+    }
+    
+    .multiplier {
+        margin-bottom: 0.6rem;
+        text-align: center;
     }
     
     .multiplier-text {
-        font-size: 0.9rem; /* Slightly larger */
+        font-size: 0.9rem;
+        font-weight: 800;
+        color: var(--text-white);
+        background: linear-gradient(135deg, var(--primary-pink), var(--primary-purple));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
     }
     
+    .rtp-container {
+        margin-top: 0.6rem;
+    }
+    
+    .rtp-bar-wrapper {
+        height: 35px;
+        border-radius: 18px;
+        background: rgba(0, 0, 0, 0.6);
+        border: 2px solid rgba(255, 255, 255, 0.1);
+        overflow: hidden;
+    }
     
     .rtp-bar {
-        height: 38px; /* INCREASED from 28px */
-        font-size: 0.95rem; /* Larger text */
-        font-weight: 800;
-        padding: 0 ;
+        height: 35px;
+        font-size: 0.9rem;
+        font-weight: 900;
+        border-radius: 16px;
         display: flex;
         align-items: center;
         justify-content: center;
-        line-height: 1;
-        text-align: center;
+        color: #000;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
     }
 }
 
 /* Small Mobile Devices */
 @media (max-width: 480px) {
     .container {
-        padding: 0 0.5rem;
+        padding: 0 1rem;
+    }
+    
+    /* Compact Header */
+    .header {
+        padding: 1.2rem 0;
     }
     
     .logo h1 {
-        font-size: 1.2rem;
-        letter-spacing: 1px;
+        font-size: 1.6rem;
+        font-weight: 900;
     }
     
-    .register-btn {
-        padding: 0.5rem 1rem;
-        font-size: 0.75rem;
+    /* Hero Section */
+    .hero {
+        padding: 1.5rem 0;
     }
     
     .main-title {
+        font-size: 1.8rem;
+        margin-bottom: 0.8rem;
+    }
+    
+    .description {
+        font-size: 0.9rem;
+        margin-bottom: 1.2rem;
+    }
+    
+    /* Header Title Small Mobile */
+    .header-title {
+        font-size: 1.5rem;
+        letter-spacing: 1.5px;
+    }
+    
+    .main-content {
+        margin-top: 60px;
+    }
+    
+    /* Carousel Small Mobile */
+    .banner-carousel {
+        margin: 1rem 0;
+    }
+    
+    .carousel-container {
+        border-radius: 8px;
+    }
+    
+    .carousel-btn {
+        width: 35px;
+        height: 35px;
         font-size: 1.3rem;
     }
     
-    .provider-title {
-        font-size: 1.2rem;
+    .carousel-btn-prev {
+        left: 5px;
     }
     
-    .tab-btn {
-        padding: 0.5rem 0.8rem;
+    .carousel-btn-next {
+        right: 5px;
+    }
+    
+    .carousel-dots {
+        bottom: 10px;
+        gap: 6px;
+    }
+    
+    .dot {
+        width: 8px;
+        height: 8px;
+        border-width: 1px;
+    }
+    
+    .dot.active {
+        width: 20px;
+    }
+    
+    /* Hamburger Menu Small Mobile */
+    .provider-section {
+        margin: 1.5rem 0 1rem 0;
+    }
+    
+    .hamburger-btn {
+        min-width: 280px;
+        width: 98%;
+        padding: 0.9rem 1.2rem;
+        font-size: 0.9rem;
+        gap: 0.8rem;
+    }
+    
+    .provider-name {
+        font-size: 0.9rem;
+    }
+    
+    .provider-count {
+        padding: 0.25rem 0.6rem;
         font-size: 0.75rem;
     }
     
-    /* OPTIMIZED: Still 3 columns but more compact */
+    .hamburger-icon {
+        font-size: 1.3rem;
+    }
+    
+    .provider-menu {
+        min-width: 280px;
+        width: 98%;
+        padding: 0.6rem;
+        max-height: 55vh;
+    }
+    
+    .provider-item {
+        padding: 0.8rem 1rem;
+        font-size: 0.8rem;
+        margin-bottom: 0.5rem;
+        letter-spacing: 1px;
+    }
+    
+    .provider-text {
+        font-size: 0.8rem;
+    }
+    
+    .provider-game-count {
+        font-size: 0.75rem;
+    }
+    
+    /* Compact Games Grid - 3 columns */
     .games-grid {
         grid-template-columns: repeat(3, 1fr);
         gap: 0.5rem;
+        margin-top: 1.2rem;
+        padding: 0;
+    }
+    
+    .game-card {
+        border-radius: 8px;
+        background: rgba(26, 26, 26, 0.8);
+        border: 2px solid rgba(255, 64, 129, 0.2);
+        overflow: hidden;
     }
     
     .game-image {
-        height: 170px; /* INCREASED from 120px */
-    }
-    
-    .rtp-bar-wrapper {
-        height: 35px; /* Match RTP bar height */
+        height: 160px;
+        border-radius: 6px 6px 0 0;
     }
     
     .game-info {
-        padding: 0.5rem 0.3rem; /* Better spacing */
+        padding: 0.5rem 0.3rem;
+        background: rgba(10, 10, 10, 0.8);
     }
     
-    .multiplier-text {
-        font-size: 0.8rem; /* Increased from 0.75rem */
-        font-weight: 700;
-    }
-    
-    
-    .rtp-bar {
-        height: 35px; /* INCREASED from 26px */
-        font-size: 0.85rem; /* Increased from 0.75rem */
-        font-weight: 800;
-        padding: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        line-height: 1;
+    .multiplier {
+        margin-bottom: 0.4rem;
         text-align: center;
     }
     
-    .rtp-overlay {
-        padding: 5px;
+    .multiplier-text {
+        font-size: 1.0rem;
+        font-weight: 700;
+        color: var(--text-white);
+        background: var(--text-white);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
     }
     
-    .show-all-btn {
-        font-size: 0.85rem;
-        padding: 0.7rem;
+    .rtp-container {
+        margin-top: 0.4rem;
+    }
+    
+    .rtp-bar-wrapper {
+        height: 28px;
+        border-radius: 14px;
+        background: rgba(0, 0, 0, 0.6);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .rtp-bar {
+        height: 28px;
+        font-size: 0.75rem;
+        font-weight: 800;
+        border-radius: 13px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #000;
     }
 }
 
