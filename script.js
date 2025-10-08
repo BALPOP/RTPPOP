@@ -107,17 +107,9 @@ function generateRandomMultiplier(gameId) {
     const multiplierIndex = getSeededRandomInt(multiplierSeed, 0, CONFIG.multipliers.length - 1);
     const multiplier = CONFIG.multipliers[multiplierIndex];
     
-    const icons = [];
-    for (let i = 0; i < 3; i++) {
-        const iconSeed = (timeSeed * 1000 + gameNumericId) * (13 + i * 5);
-        const isCheck = getSeededRandomInt(iconSeed, 0, 1) === 1;
-        icons.push(isCheck ? 'check' : 'close');
-    }
-    
     return {
         value: multiplier.value,
-        type: multiplier.type,
-        icons: icons
+        type: multiplier.type
     };
 }
 
@@ -253,9 +245,6 @@ function createGameCard(game, index) {
         <div class="game-info">
             <div class="multiplier">
                 <div class="multiplier-text">${multiplier.value} Manual</div>
-                <div class="multiplier-icons">
-                    ${generateMultiplierIcons(multiplier.icons)}
-                </div>
             </div>
             <div class="rtp-container">
                 <div class="rtp-bar-wrapper">
@@ -280,18 +269,6 @@ function createGameCard(game, index) {
     return card;
 }
 
-/**
- * Generates HTML for multiplier icons
- */
-function generateMultiplierIcons(icons) {
-    return icons.map(icon => {
-        if (icon === 'check') {
-            return '<span class="icon-check">✓</span>';
-        } else {
-            return '<span class="icon-close">✕</span>';
-        }
-    }).join('');
-}
 
 // ============================================
 // RENDERING FUNCTIONS

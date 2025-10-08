@@ -133,9 +133,7 @@ body {
     line-height: 1.8;
 }
 
-/* ============================================
-   PROVIDER TABS
-   ============================================ */
+
 .provider-tabs {
     display: flex;
     justify-content: center;
@@ -228,9 +226,6 @@ body {
     font-weight: 900;
 }
 
-/* ============================================
-   GAMES GRID
-   ============================================ */
 .games-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -306,17 +301,6 @@ body {
     color: var(--text-white);
 }
 
-.multiplier-icons {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 0.4rem;
-    font-size: 1.25rem;
-    line-height: 1;
-}
-
-.icon-check { color: var(--green-bar); }
-.icon-close { color: var(--red-bar); }
 
 /* RTP container below image */
 .rtp-container {
@@ -495,20 +479,12 @@ body {
         font-size: 0.9rem; /* Slightly larger */
     }
     
-    .multiplier-icons {
-        gap: 0.25rem;
-    }
-    
-    .multiplier-icons svg {
-        width: 15px;
-        height: 15px;
-    }
     
     .rtp-bar {
         height: 38px; /* INCREASED from 28px */
         font-size: 0.95rem; /* Larger text */
         font-weight: 800;
-        padding: 0;
+        padding: 0 ;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -569,10 +545,6 @@ body {
         font-weight: 700;
     }
     
-    .multiplier-icons svg {
-        width: 13px;
-        height: 13px;
-    }
     
     .rtp-bar {
         height: 35px; /* INCREASED from 26px */
